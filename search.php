@@ -32,5 +32,18 @@ if ($_SERVER['REQUEST_METHOD']==="POST"){
 
     $query = "SELECT * from donors WHERE blood_group = '$blood_group'";
     $result = mysqli_query($conn, $query);
+
+    if(mysqli_num_rows($result)>0){
+        echo "<h2>Availiable Donors:</h2>";
+
+        while($row = mysqli_fetch_assoc($result)){
+            echo "Name: ". $row['name'] .
+                 "| Contact: ". $row['contact'] . 
+                 "| City: ". $row['city'] . "<br>";  
+        }
+    }
+    else{
+        echo "<p>No donors found for $blood_group. </p>";
+    }
 }
 ?>
