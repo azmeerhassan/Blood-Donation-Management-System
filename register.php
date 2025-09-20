@@ -7,7 +7,7 @@ $blood_group = $_POST['blood_group'];
 $contact = $_POST['contact'];
 $city = $_POST['city'];
 
-$sql` = "INSERT INTO donors (name, blood_group, contact, city)
+$sql = "INSERT INTO donors (name, blood_group, contact, city)
         VALUES('$name', '$blood_group', '$contact', '$city')"; 
         
     if(mysqli_query($conn, $sql)){
