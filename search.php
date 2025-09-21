@@ -19,15 +19,27 @@
             <option>AB-</option>
 
         </select>
+        <br><br>
+        <label>Enter City:</label>
+        <input type="text" name = "city" placeholder="Enter City">
 
+        <br><br>
         <input type="Submit" value = "Search">
 </form>
 <?php
 include 'db_connect.php';
 if ($_SERVER['REQUEST_METHOD']==="POST"){
     $blood_group = $_POST['blood_group'];
+    $city = trim($_POST['city']);
 
-    $query = "SELECT * from donors WHERE blood_group = '$blood_group'";
+    if($city==''){
+        $query = "SELECT * from donors WHERE blood_group = '$blood_group'";
+    }else{
+        $city = mysqli_real_escape_string($conn, $_POST['city']);
+        $query = "SELECT * from donors WHERE blood_group = '$blood_group' AND city LIKE '%$city%'";
+    }
+
+    
     $result = mysqli_query($conn, $query);
 
     if(mysqli_num_rows($result)>0){
@@ -47,15 +59,17 @@ if ($_SERVER['REQUEST_METHOD']==="POST"){
             echo "<td>{$blood_group}</td>";
             echo "<td>{$contact}</td>";
             echo "<td>{$city}</td>";
-            // echo "Name: ". $row['name'] .
-            //      "| Contact: ". $row['contact'] . 
-            //      "| City: ". $row['city'] . "<br>";  
+              
         }
         echo "</table>";
     }
     else{
-        $safe_blood_group = htmlspecialchars($row['blood_group']);
-        echo "<p>No donors found for ${$safe_blood_group}.</p>";
+        $safe_blood_group = htmlspecialchars($blood_group);
+        $safe_city = htmlspecialchars($city);
+        if($safe_city==''){
+            echo "<p>No donors found for {$safe_blood_group}.</p>";
+        }
+        echo "<p>No donors found for {$safe_blood_group} in {$safe_city}.</p>";
     }
 mysqli_free_result($result);
 mysqli_close($conn);
