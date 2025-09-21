@@ -26,6 +26,8 @@
         <br><br>
         <input type="Submit" value = "Search">
 </form>
+<br><br>
+<a href="index.php">Back to Home Page</a>
 <?php
 include 'db_connect.php';
 if ($_SERVER['REQUEST_METHOD']==="POST"){
