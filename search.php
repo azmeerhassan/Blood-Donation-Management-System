@@ -4,6 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Search Donor</title>
+    <style>
+    .success {
+        color: green;
+        font-weight: bold;
+        padding: 8px;
+        border: 1px solid green;
+        background-color: #e6ffe6;
+        border-radius: 5px;
+    }
+    .error {
+        color: red;
+        font-weight: bold;
+        padding: 8px;
+        border: 1px solid red;
+        background-color: #ffe6e6;
+        border-radius: 5px;
+    }
+</style>
+
 </head>
 <body>
     <form method="POST" action="">
@@ -35,7 +54,7 @@ include 'db_connect.php';
 
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
     if (!empty($db_connect_error)) {
-        echo "<p style='color: red; font-weight: bold;'>❌ Database connection failed: "
+        echo "<p class='error' style='color: red; font-weight: bold;'>❌ Database connection failed: "
              . htmlspecialchars($db_connect_error) . "</p>";
     } else {
         $blood_group = $_POST['blood_group'];
@@ -51,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         $result = mysqli_query($conn, $query);
 
         if (!$result) {
-            echo "<p style='color: red; font-weight: bold;'>❌ Error running search query.</p>";
+            echo "<p class='success' style='color: red; font-weight: bold;'>❌ Error running search query.</p>";
         } elseif (mysqli_num_rows($result) > 0) {
             echo "<h2>Available Donors:</h2>";
             echo "<table border='1' cellpadding='8' cellspacing='0'>";
@@ -75,7 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         } else {
             $safe_blood_group = htmlspecialchars($blood_group);
             $safe_city = htmlspecialchars($city);
-            echo "<p style='color: red; font-weight: bold;'>❌ No donors found for $safe_blood_group in $safe_city.</p>";
+            echo "<p class='success' style='color: red; font-weight: bold;'>❌ No donors found for $safe_blood_group in $safe_city.</p>";
         }
 
         mysqli_free_result($result);
